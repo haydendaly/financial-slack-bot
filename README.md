@@ -1,4 +1,4 @@
-# TopCoder Slack Bot
+# Financial Slack Bot
 ## Overview
 Project for SSW 345 Model-based Software Engineering
 
