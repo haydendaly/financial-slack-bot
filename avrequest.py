@@ -14,5 +14,13 @@ def getQuote(ticker):
 	result = bestMatch["1. symbol"] + " (" + bestMatch["2. name"] + ") is at $" + str(midPrice)
 	return result
 	
+def getExchangeRate(currency1, currency2):
+	exchangeRate = requests.get("https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency="+currency1+"&to_currency="+currency2+"&apikey="+apikey).json()["Realtime Currency Exchange Rate"]
+	
+	#print(exchangeRate)
+	
+	result = currency1 + " -> " + currency2 + ": " + exchangeRate["5. Exchange Rate"]
+	return result
+	
 if __name__ == "__main__":
-	print(getQuote("AAPL"))
+	print(getExchangeRate("USD", "JPY"))
