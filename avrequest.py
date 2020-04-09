@@ -1,18 +1,18 @@
 import requests
 import pandas as pd
 apikey = "0T4JN32CNRLAY45K"
+url = "https://www.alphavantage.co/query?function="
 
 df = pd.read_csv("./data/currencies.csv")
 df = df.set_index("currency code")
 
 def search(ticker):
-	search = requests.get("https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords="+ticker+"&apikey="+apikey).json()
+	search = requests.get(url + "SYMBOL_SEARCH&keywords="+ticker+"&apikey="+apikey).json()
 	return search["bestMatches"][0]
-
 
 def getQuote(ticker):
 	bestMatch = search(ticker)
-	quote = requests.get("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="+bestMatch["1. symbol"]+"&apikey="+apikey).json()
+	quote = requests.get(url + "GLOBAL_QUOTE&symbol="+bestMatch["1. symbol"]+"&apikey="+apikey).json()
 	midPrice = (float(quote["Global Quote"]["03. high"]) +
 				float(quote["Global Quote"]["04. low"])) / 2
 	result = bestMatch["1. symbol"] + " (" + bestMatch["2. name"] + ") is at $" + str(midPrice)
@@ -20,7 +20,7 @@ def getQuote(ticker):
 
 def getExchangeRate(currency1, currency2):
 	if (currency1 in df.index and currency2 in df.index):
-		exchangeRate = requests.get("https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency="+currency1+"&to_currency="+currency2+"&apikey="+apikey).json()["Realtime Currency Exchange Rate"]
+		exchangeRate = requests.get(url + "CURRENCY_EXCHANGE_RATE&from_currency="+currency1+"&to_currency="+currency2+"&apikey="+apikey).json()["Realtime Currency Exchange Rate"]
 		result = currency1 + " -> " + currency2 + ": " + exchangeRate["5. Exchange Rate"]
 		return result
 	else:
@@ -28,7 +28,7 @@ def getExchangeRate(currency1, currency2):
 
 def getWMA(ticker):
 	bestMatch = search(ticker)
-	wma = requests.get("https://www.alphavantage.co/query?function=WMA&symbol=" + bestMatch["1. symbol"] + "&interval=weekly&time_period=10&series_type=open&apikey=" + apikey).json()
+	wma = requests.get(url + "WMA&symbol=" + bestMatch["1. symbol"] + "&interval=weekly&time_period=10&series_type=open&apikey=" + apikey).json()
 	for timeStamp in wma["Technical Analysis: WMA"]:
 		timeWMA = timeStamp
 		wmaValue = wma["Technical Analysis: WMA"][timeWMA]['WMA']
