@@ -18,14 +18,14 @@ def handle_message(event_data):
     print(message)
     channel = message["channel"]
     if message.get("subtype") is None and bot_id in message.get('text'):
-        text = message.get('text').lower()
-		if text.split(" ")[0] in approved_commands:
-			avrequest.router(text)
-		else:
-            response = "Here is a list of things you can ask me:\n"
-            response += "get quote <stock_ticker> (e.g. get quote GOOG)\n"
-            response += "get wma <stock_ticker> (e.g. get wma AAPL)\n"
-            response += "get exchange rate <currency1> <currency2> (e.g. get exchange rate USD CAD)"
+        text = message.get('text').lower().split(" ")
+        if text[0] in approved_commands:
+            avrequest.router(text)
+        else:
+            response = "Sorry, I didn't catch that. Here is a list of things you can ask me:\n"
+            response += "getQuote <stock_ticker> (e.g. getQuote GOOG)\n"
+            response += "getWMA <stock_ticker> (e.g. getWMA AAPL)\n"
+            response += "getExchangeRate <currency1> <currency2> (e.g. getExchangeRate USD CAD)"
         client.chat_postMessage(
             channel=channel,
             text=response
