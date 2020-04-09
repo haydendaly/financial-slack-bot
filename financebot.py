@@ -18,8 +18,8 @@ def handle_message(event_data):
     print(message)
     channel = message["channel"]
     if message.get("subtype") is None and bot_id in message.get('text'):
-        text = message.get('text').lower()
-        if text.split(" ")[0] in approved_commands:
+        text = message.get('text').lower().split(" ")
+        if text[0] in approved_commands:
             avrequest.router(text)
         else:
             response = "Sorry, I didn't catch that. Here is a list of things you can ask me:\n"

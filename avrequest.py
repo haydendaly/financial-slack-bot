@@ -24,10 +24,10 @@ def get_exchange_rate(currency_1, currency_2):
 		result = currency_1 + " -> " + currency_2 + ": " + exchange_rate["5. Exchange Rate"]
 		return result
 	else:
-		err = currency_2
+		invalid_currency = currency_2
 		if currency_1 not in df.index:
-			err = currency_1
-		return "Error: " + err + " not in approved indexes"
+			invalid_currency = currency_1
+		return "Error: " + invalid_currency + " not in approved indexes"
 
 def get_WMA(ticker):
 	best_match = search(ticker)
@@ -39,14 +39,13 @@ def get_WMA(ticker):
 	result = best_match["1. symbol"] + " (" + best_match["2. name"] + ") Weekly Moving Average is $" + wma_value + " for the week of " + time_WMA
 	return result
 
-def router(string):
-	words = string.split(" ")
-	if words[0] == "getQuote":
-		return get_quote(words[1].split("=")[1])
-	elif words[0] == "getExchangeRate":
-		return get_exchange_rate(words[1].split("=")[1], words[2].split("=")[1])
-	elif words[0] == "getWMA":
-		return get_WMA(words[1].split("=")[1])
+def router(text):
+	if text[0] == "getQuote":
+		return get_quote(text[1].split("=")[1])
+	elif text[0] == "getExchangeRate":
+		return get_exchange_rate(text[1].split("=")[1], text[2].split("=")[1])
+	elif text[0] == "getWMA":
+		return get_WMA(text[1].split("=")[1])
 	else:
 		return False
 
