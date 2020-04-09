@@ -24,7 +24,10 @@ def getExchangeRate(currency1, currency2):
 		result = currency1 + " -> " + currency2 + ": " + exchangeRate["5. Exchange Rate"]
 		return result
 	else:
-		return False
+		err = currency2
+		if currency1 not in df.index:
+			err = currency1
+		return "Error: " + err + " not in approved indexes"
 
 def getWMA(ticker):
 	bestMatch = search(ticker)
