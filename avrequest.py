@@ -12,12 +12,12 @@ def search(ticker):
 	search = requests.get(url + "SYMBOL_SEARCH&keywords="+ticker+"&apikey="+apikey).json()
 	return search["bestMatches"][0]
 
-def getQuote(ticker):
-	bestMatch = search(ticker)
-	quote = requests.get(url + "GLOBAL_QUOTE&symbol="+bestMatch["1. symbol"]+"&apikey="+apikey).json()
-	midPrice = (float(quote["Global Quote"]["03. high"]) +
+def get_quote(ticker):
+	best_match = search(ticker)
+	quote = requests.get(url + "GLOBAL_QUOTE&symbol="+best_match["1. symbol"]+"&apikey="+apikey).json()
+	mid_price = (float(quote["Global Quote"]["03. high"]) +
 				float(quote["Global Quote"]["04. low"])) / 2
-	result = bestMatch["1. symbol"] + " (" + bestMatch["2. name"] + ") is at $" + str(midPrice)
+	result = best_match["1. symbol"] + " (" + best_match["2. name"] + ") is at $" + str(mid_price)
 	return result
 
 def getExchangeRate(currency1, currency2):
@@ -26,19 +26,19 @@ def getExchangeRate(currency1, currency2):
 		result = currency1 + " -> " + currency2 + ": " + exchangeRate["5. Exchange Rate"]
 		return result
 	else:
-		err = currency2
+		invalid_currency = currency2
 		if currency1 not in dfCurrency.index:
-			err = currency1
-		return "Error: " + err + " not in approved indexes"
+			invalid_currency = currency1
+		return "Error: " + invalid_currency + " not in approved indexes"
 
-def getWMA(ticker):
-	bestMatch = search(ticker)
-	wma = requests.get(url + "WMA&symbol=" + bestMatch["1. symbol"] + "&interval=weekly&time_period=10&series_type=open&apikey=" + apikey).json()
-	for timeStamp in wma["Technical Analysis: WMA"]:
-		timeWMA = timeStamp
-		wmaValue = wma["Technical Analysis: WMA"][timeWMA]['WMA']
+def get_WMA(ticker):
+	best_match = search(ticker)
+	wma = requests.get(url + "WMA&symbol=" + best_match["1. symbol"] + "&interval=weekly&time_period=10&series_type=open&apikey=" + apikey).json()
+	for time_stamp in wma["Technical Analysis: WMA"]:
+		time_WMA = time_stamp
+		wma_value = wma["Technical Analysis: WMA"][time_WMA]['WMA']
 		break
-	result = bestMatch["1. symbol"] + " (" + bestMatch["2. name"] + ") Weekly Moving Average is $" + wmaValue + " for the week of " + timeWMA
+	result = best_match["1. symbol"] + " (" + best_match["2. name"] + ") Weekly Moving Average is $" + wma_value + " for the week of " + time_WMA
 	return result
 
 def getBBANDS(ticker):
@@ -67,8 +67,6 @@ def getRating(cryptocurrency):
 		return rating["1. symbol"] + " (" + rating["2. name"] + ") has the following cryptocurrencies ratings: " + "\n   FCAS: " + rating["4. fcas score"] + " (" + rating["3. fcas rating"] + ")\n   Developer Score: " + rating["5. developer score"] + "\n   Market Maturity Score: " + rating["6. market maturity score"] + "\n   Utility Score: " + rating["7. utility score"]
 	else:
 		return "Error: " + cryptocurrency + " not in approved symbols"
-
-
 
 def router(string):
 	words = string.split(" ")
