@@ -122,6 +122,16 @@ def get_STOCH(ticker):
 	
 	return result
 
+def get_MACD(ticker):
+	best_match = search(ticker)
+	macd = requests.get(url + "MACD&symbol=" + best_match["1. symbol"] + "&interval=weekly&time_period=10&series_type=open&apikey=" + apikey).json()
+	for time_stamp in macd["Technical Analysis: MACD"]:
+		time_macd = time_stamp
+		macd_value = macd["Technical Analysis: MACD"][time_macd]['MACD']
+		break
+	result = best_match["1. symbol"] + " (" + best_match["2. name"] + ") Weekly Moving Average Convergence/Divergence Value is $" + macd_value + " for the week of " + time_macd
+	return result
+
 def router(string):
 	words = string.split(" ")
 
@@ -147,6 +157,8 @@ def router(string):
 		return get_RSI(words[1].split("=")[1], words[2].split("=")[1])
 	elif words[0] == "getSTOCH":
 		return get_STOCH(words[1].split("=")[1])
+	elif words[1] == "getMACD":
+		return get_MACD(words[2])
 	else:
 		return False
 
