@@ -35,10 +35,10 @@ def get_WMA(ticker):
 	best_match = search(ticker)
 	wma = requests.get(url + "WMA&symbol=" + best_match["1. symbol"] + "&interval=weekly&time_period=10&series_type=open&apikey=" + apikey).json()
 	for time_stamp in wma["Technical Analysis: WMA"]:
-		time_WMA = time_stamp
-		wma_value = wma["Technical Analysis: WMA"][time_WMA]['WMA']
+		time_wma = time_stamp
+		wma_value = wma["Technical Analysis: WMA"][time_wma]['WMA']
 		break
-	result = best_match["1. symbol"] + " (" + best_match["2. name"] + ") Weekly Moving Average is $" + wma_value + " for the week of " + time_WMA
+	result = best_match["1. symbol"] + " (" + best_match["2. name"] + ") Weighted Weekly Moving Average is $" + wma_value + " for the week of " + time_wma
 	return result
 
 def get_BBANDS(ticker):
@@ -68,6 +68,16 @@ def get_rating(cryptocurrency):
 	else:
 		return "Error: " + cryptocurrency + " not in approved symbols"
 
+def get_EMA(ticker):
+	best_match = search(ticker)
+	ema = requests.get(url + "EMA&symbol=" + best_match["1. symbol"] + "&interval=weekly&time_period=10&series_type=open&apikey=" + apikey).json()
+	for time_stamp in ema["Technical Analysis: EMA"]:
+		time_ema = time_stamp
+		ema_value = ema["Technical Analysis: EMA"][time_ema]['EMA']
+		break
+	result = best_match["1. symbol"] + " (" + best_match["2. name"] + ") Exponential Weekly Moving Average is $" + ema_value + " for the week of " + time_ema
+	return result
+
 def router(string):
 	words = string.split(" ")
 	if words[1] == "getQuote":
@@ -84,6 +94,8 @@ def router(string):
 		return get_CCI(words[2])
 	elif words[1] == "getRating":
 		return get_rating(words[2])
+	elif words[1] == "getEMA":
+		return get_EMA(words[2])
 	else:
 		return False
 

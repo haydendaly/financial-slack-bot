@@ -27,7 +27,8 @@ def handle_message(event_data):
             response += "*search `<stock_ticker>` (e.g. search JNJ)*\n"
             response += "*getBBANDS `<stock_ticker>` (e.g. getBBANDS FB)*\n"
             response += "*getCCI `<stock_ticker>` (e.g. getCCI NFLX)*\n"
-            response += "*getRating `<cryptocurrency_ticker>` (e.g. getRating BTC)*"
+            response += "*getRating `<cryptocurrency_ticker>` (e.g. getRating BTC)*\n"
+            response += "*getEMA `<stock_ticker>` (e.g. getEMA ZG)*\n"
         client.chat_postMessage(
             channel=channel,
             text=response
