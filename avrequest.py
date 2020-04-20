@@ -20,7 +20,7 @@ def get_quote(ticker):
 	result = best_match["1. symbol"] + " (" + best_match["2. name"] + ") is at $" + str(mid_price)
 	return result
 
-def getExchangeRate(currency1, currency2):
+def get_exchange_rate(currency1, currency2):
 	if (currency1 in dfCurrency.index and currency2 in dfCurrency.index):
 		exchangeRate = requests.get(url + "CURRENCY_EXCHANGE_RATE&from_currency="+currency1+"&to_currency="+currency2+"&apikey="+apikey).json()["Realtime Currency Exchange Rate"]
 		result = currency1 + " -> " + currency2 + ": " + exchangeRate["5. Exchange Rate"]
@@ -41,7 +41,7 @@ def get_WMA(ticker):
 	result = best_match["1. symbol"] + " (" + best_match["2. name"] + ") Weekly Moving Average is $" + wma_value + " for the week of " + time_WMA
 	return result
 
-def getBBANDS(ticker):
+def get_BBANDS(ticker):
 	bestMatch = search(ticker)
 	bbands = requests.get(url + "BBANDS&symbol=" + bestMatch["1. symbol"] + "&interval=weekly&time_period=10&series_type=open&apikey=" + apikey).json()
 	for timeStamp in bbands["Technical Analysis: BBANDS"]:
@@ -51,7 +51,7 @@ def getBBANDS(ticker):
 	result = bestMatch["1. symbol"] + " (" + bestMatch["2. name"] + ") Bollinger bands (BBANDS) values are: \n   Real Upper Band: " + bbandsTime["Real Upper Band"] + "\n   Real Middle Band: " + bbandsTime["Real Middle Band"] + "\n   Real Lower Band: " + bbandsTime["Real Lower Band"] + "\nfor the week of " + timeBBANDS
 	return result
 
-def getCCI(ticker):
+def get_CCI(ticker):
 	bestMatch = search(ticker)
 	cci = requests.get(url + "CCI&symbol=" + bestMatch["1. symbol"] + "&interval=weekly&time_period=10&series_type=open&apikey=" + apikey).json()
 	for timeStamp in cci["Technical Analysis: CCI"]:
@@ -61,7 +61,7 @@ def getCCI(ticker):
 	result = bestMatch["1. symbol"] + " (" + bestMatch["2. name"] + ") Commodity Channel Index is " + cciValue + " for the week of " + timeCCI
 	return result
 
-def getRating(cryptocurrency):
+def get_rating(cryptocurrency):
 	if cryptocurrency in dfCrypto.index:
 		rating = requests.get(url + "CRYPTO_RATING&symbol="+cryptocurrency+"&apikey="+apikey).json()["Crypto Rating (FCAS)"]
 		return rating["1. symbol"] + " (" + rating["2. name"] + ") has the following cryptocurrencies ratings: " + "\n   FCAS: " + rating["4. fcas score"] + " (" + rating["3. fcas rating"] + ")\n   Developer Score: " + rating["5. developer score"] + "\n   Market Maturity Score: " + rating["6. market maturity score"] + "\n   Utility Score: " + rating["7. utility score"]
@@ -70,20 +70,20 @@ def getRating(cryptocurrency):
 
 def router(string):
 	words = string.split(" ")
-	if words[0] == "getQuote":
-		return getQuote(words[1].split("=")[1])
-	elif words[0] == "getExchangeRate":
-		return getExchangeRate(words[1].split("=")[1], words[2].split("=")[1])
-	elif words[0] == "getWMA":
-		return getWMA(words[1].split("=")[1])
-	elif words[0] == "search":
-		return search(words[1].split("=")[1])
-	elif words[0] == "getBBANDS":
-		return getBBANDS(words[1].split("=")[1])
-	elif words[0] == "getCCI":
-		return getCCI(words[1].split("=")[1])
-	elif words[0] == "getRating":
-		return getRating(words[1].split("=")[1])
+	if words[1] == "getQuote":
+		return get_quote(words[2])
+	elif words[1] == "getExchangeRate":
+		return get_exchange_rate(words[2], words[3])
+	elif words[1] == "getWMA":
+		return get_WMA(words[2])
+	elif words[1] == "search":
+		return search(words[2])
+	elif words[1] == "getBBANDS":
+		return get_BBANDS(words[2])
+	elif words[1] == "getCCI":
+		return get_CCI(words[2])
+	elif words[1] == "getRating":
+		return get_rating(words[2])
 	else:
 		return False
 
