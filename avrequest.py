@@ -39,9 +39,9 @@ def getWMA(ticker):
 	result = bestMatch["1. symbol"] + " (" + bestMatch["2. name"] + ") Weekly Moving Average is $" + wmaValue + " for the week of " + timeWMA
 	return result
 	
-def getOBV(ticker):
-	bestMatch = search(ticker)
-	obv = requests.get(url + "OBV&symbol=" + bestMatch["1. symbol"] + "&interval=weekly&apikey=" + apikey).json()["Technical Analysis: OBV"]
+def get_OBV(ticker):
+	best_match = search(ticker)
+	obv = requests.get(url + "OBV&symbol=" + best_match["1. symbol"] + "&interval=weekly&apikey=" + apikey).json()["Technical Analysis: OBV"]
 	result = ""
 	i = 0
 	for key in obv:
@@ -52,15 +52,14 @@ def getOBV(ticker):
 	
 	return result
 	
-def getRSI(ticker, series):
+def get_RSI(ticker, series):
 	valid_series = ["closed", "open", "high", "low"]
 	
 	if series not in valid_series:
 		return "Invalid series type " + series
 	
-	bestMatch = search(ticker)
-	rsi = requests.get(url + "RSI&symbol=" + bestMatch["1. symbol"] + "&interval=weekly&time_period=60&series_type=" + series + "&apikey=" + apikey).json()
-	print(rsi)
+	best_match = search(ticker)
+	rsi = requests.get(url + "RSI&symbol=" + best_match["1. symbol"] + "&interval=weekly&time_period=60&series_type=" + series + "&apikey=" + apikey).json()
 	result = ""
 	i = 0
 	for key in rsi["Technical Analysis: RSI"]:
@@ -71,9 +70,9 @@ def getRSI(ticker, series):
 	
 	return result
 	
-def getSTOCH(ticker):
-	bestMatch = search(ticker)
-	stoch = requests.get(url + "STOCH&symbol=" + bestMatch["1. symbol"] + "&interval=weekly&apikey=" + apikey).json()["Technical Analysis: STOCH"]
+def get_STOCH(ticker):
+	best_match = search(ticker)
+	stoch = requests.get(url + "STOCH&symbol=" + best_match["1. symbol"] + "&interval=weekly&apikey=" + apikey).json()["Technical Analysis: STOCH"]
 	result = ""
 	i = 0
 	for key in stoch:
@@ -93,11 +92,11 @@ def router(string):
 	elif words[0] == "getWMA":
 		return getWMA(words[1].split("=")[1])
 	elif words[0] == "getOBV":
-		return getOBV(words[1].split("=")[1])
+		return get_OBV(words[1].split("=")[1])
 	elif words[0] == "getRSI":
-		return getRSI(words[1].split("=")[1], words[2].split("=")[1])
+		return get_RSI(words[1].split("=")[1], words[2].split("=")[1])
 	elif words[0] == "getSTOCH":
-		return getSTOCH(words[1].split("=")[1])
+		return get_STOCH(words[1].split("=")[1])
 	else:
 		return False
 
