@@ -151,7 +151,7 @@ def router(string):
 		return get_rating(words[2])
 	elif words[1] == "getEMA":
 		return get_EMA(words[2])
-  elif words[0] == "getOBV":
+	elif words[0] == "getOBV":
 		return get_OBV(words[1].split("=")[1])
 	elif words[0] == "getRSI":
 		return get_RSI(words[1].split("=")[1], words[2].split("=")[1])
