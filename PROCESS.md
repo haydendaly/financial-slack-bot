@@ -46,4 +46,4 @@ As a trader, I want to be able to get the moving average convergence / divergenc
 ### Reflection:
 We think waiting till the last minute to commit and merge all of our changes seemed stressful. We were all used to working on projects alone so did a lot of our changes locally and didn’t really utilize the Kanban board in the manner it was supposed to be used. Reflecting upon the project, we think our major areas for improvement would be to distribute our commits over the sprint rather than waiting till the end to commit and merge all the work. Lastly, upon building this project, the team realizes the potential of a bot like this and wants to implement it within the Slack Bot “Marketplace”. The group plans on having a third, informal iteration where they flesh it out a bit for deployment. Plans surround using a robust amount API keys (so the limit surpasses 500) and deploying the Slack bot on a Heroku instance as originally intended for global use.
 ## Demo:
-<INSERT URL>
+![][./345-demo.mov]
