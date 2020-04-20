@@ -29,6 +29,10 @@ def handle_message(event_data):
             response += "*getCCI `<stock_ticker>` (e.g. getCCI NFLX)*\n"
             response += "*getRating `<cryptocurrency_ticker>` (e.g. getRating BTC)*\n"
             response += "*getEMA `<stock_ticker>` (e.g. getEMA ZG)*\n"
+            response += "*getOBV `<stock_ticker>` (e.g. getOBV V)*\n"
+            response += "*getRSI `<stock_ticker>` (e.g. getRSI WMT)*\n"
+            response += "*getSTOCK `<stock_ticker>` (e.g. getSTOCK MSFT)*\n"
+            response += "*getMACD `<stock_ticker>` (e.g. getMACD ZM)*"
         client.chat_postMessage(
             channel=channel,
             text=response
