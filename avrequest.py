@@ -91,14 +91,9 @@ def get_OBV(ticker):
 	
 	return result
 	
-def get_RSI(ticker, series):
-	valid_series = ["closed", "open", "high", "low"]
-	
-	if series not in valid_series:
-		return "Invalid series type " + series
-	
+def get_RSI(ticker):
 	best_match = search(ticker)
-	rsi = requests.get(url + "RSI&symbol=" + best_match["1. symbol"] + "&interval=weekly&time_period=60&series_type=" + series + "&apikey=" + apikey).json()
+	rsi = requests.get(url + "RSI&symbol=" + best_match["1. symbol"] + "&interval=weekly&time_period=60&series_type=open&apikey=" + apikey).json()
 	result = ""
 	i = 0
 	for key in rsi["Technical Analysis: RSI"]:
@@ -106,7 +101,8 @@ def get_RSI(ticker, series):
 		i += 1
 		if i >= 5: 
 			break
-	
+	if result == "":
+		return "No result"
 	return result
 	
 def get_STOCH(ticker):
@@ -151,12 +147,12 @@ def router(string):
 		return get_rating(words[2])
 	elif words[1] == "getEMA":
 		return get_EMA(words[2])
-	elif words[0] == "getOBV":
-		return get_OBV(words[1].split("=")[1])
-	elif words[0] == "getRSI":
-		return get_RSI(words[1].split("=")[1], words[2].split("=")[1])
-	elif words[0] == "getSTOCH":
-		return get_STOCH(words[1].split("=")[1])
+	elif words[1] == "getOBV":
+		return get_OBV(words[2])
+	elif words[1] == "getRSI":
+		return get_RSI(words[2])
+	elif words[1] == "getSTOCH":
+		return get_STOCH(words[2])
 	elif words[1] == "getMACD":
 		return get_MACD(words[2])
 	else:
