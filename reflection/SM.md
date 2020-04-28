@@ -22,3 +22,4 @@
 3. After working on this project I feel that code reviews are super useful in making sure everyone on the project understands the system as a whole, keeps everyone accountable for their work, and catches issues before they become grander in scale. I hope to use code reviews in all future collaborative projects, and maybe even individual projects.
 
 ## Overall
+The Kanban boards, for me at least, seem to boost productivity and help ensure individual tasks are completed. Code reviewing helped maintain accountability, ensured each member was knowledgeable about the project, and helped catch issues quickly. Our system of integration and testing helped to expedite our workflow and quickly debug issues. Together, these three facets of our implementation helped cover the necessary tasks of developing and maintaining the integrity of our project.
